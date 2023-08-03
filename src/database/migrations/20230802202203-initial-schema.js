@@ -14,7 +14,7 @@ module.exports = {
       id: {
         type: Sequelize.DataTypes.UUID,
         primaryKey: true,
-        autoIncrement: true,
+        defaultValue: Sequelize.UUIDV4,
         AllowNull: false
       },
       firstname:{ 
@@ -42,31 +42,52 @@ module.exports = {
       },
       profile_id:  
       {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
       },
       created_at: { 
         type: Sequelize.DATE,
-        AllowNull: false
       },
       updated_at: { 
         type: Sequelize.DATE,
-        AllowNull: false
       },
       created_by:  {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
+        references: {
+          model: 'users', 
+          key: 'id'
+        }
       },
       updated_by: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
+        references: {
+          model: 'users', 
+          key: 'id'
+      }
       }
     });
     await queryInterface.createTable('address',{
       id: {
         type: Sequelize.DataTypes.UUID,
         primaryKey: true,
-        autoIncrement: true,
+        defaultValue: Sequelize.UUIDV4,
         AllowNull: false
       },
-
+      street: { 
+        type: Sequelize.STRING,
+        AllowNull: false
+        },
+      number: { 
+        type: Sequelize.INTEGER,
+        AllowNull: false
+        },
+      cep: { 
+        type: Sequelize.STRING,
+        AllowNull: false
+        },  
+      complement: { 
+        type: Sequelize.STRING,
+        AllowNull: false
+      },  
       created_at: { 
         type: Sequelize.DATE,
         AllowNull: false
@@ -76,18 +97,26 @@ module.exports = {
         AllowNull: false
       },
       created_by:  {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
+        references: {
+          model: 'users', 
+          key: 'id'
+        }
       },
       updated_by: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
+        references: {
+          model: 'users', 
+          key: 'id'
+        }       
       }
     });
 
-    await queryInterface.createTable('client',{
+    await queryInterface.createTable('clients',{
       id: {
         type: Sequelize.DataTypes.UUID,
         primaryKey: true,
-        autoIncrement: true,
+        defaultValue: Sequelize.UUIDV4,
         AllowNull: false
       },
       business_name: { 
@@ -118,8 +147,12 @@ module.exports = {
         type: Sequelize.STRING,
       },
       address_id: { 
-        type: Sequelize.INTEGER,
-        AllowNull: false
+        type: Sequelize.UUID,
+        AllowNull: false,
+        references: {
+          model: 'address', // Referencing the 'address' table
+          key: 'id'
+      }
       },
       created_at: { 
         type: Sequelize.DATE,
@@ -130,10 +163,18 @@ module.exports = {
         AllowNull: false
       },
       created_by:  {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
+        references: {
+          model: 'users', 
+          key: 'id'
+        } 
       },
       updated_by: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
+        references: {
+          model: 'users', 
+          key: 'id'
+        } 
       }
     });
 
@@ -142,7 +183,7 @@ module.exports = {
       id: {
         type: Sequelize.DataTypes.UUID,
         primaryKey: true,
-        autoIncrement: true,
+        defaultValue: Sequelize.UUIDV4,
         AllowNull: false
       },
       name: { 
@@ -158,7 +199,7 @@ module.exports = {
       id: {
         type: Sequelize.DataTypes.UUID,
         primaryKey: true,
-        autoIncrement: true,
+        defaultValue: Sequelize.UUIDV4,
         AllowNull: false
       },
       name: { 
@@ -175,14 +216,22 @@ module.exports = {
       id: {
         type: Sequelize.DataTypes.UUID,
         primaryKey: true,
-        autoIncrement: true,
+        defaultValue: Sequelize.UUIDV4,
         AllowNull: false
       },
       client_id:  {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
+        references: {
+          model: 'clients', 
+          key: 'id'
+        } 
       },
       status_id:  {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
+        references: {
+          model: 'status_service', 
+          key: 'id'
+        } 
       },
       repair_request:  {
         type: Sequelize.TEXT,
@@ -191,7 +240,11 @@ module.exports = {
         type: Sequelize.TEXT,
       },
       user_id:  {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
+        references: {
+          model: 'users', 
+          key: 'id'
+        } 
       },
       description:  {
         type: Sequelize.TEXT,
@@ -205,13 +258,128 @@ module.exports = {
         AllowNull: false
       },
       created_by:  {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
+        references: {
+          model: 'users', 
+          key: 'id'
+        } 
       },
       updated_by: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
+        references: {
+          model: 'users', 
+          key: 'id'
+        } 
       }
 
      });
+     await queryInterface.addConstraint('order_service', {
+      fields: ['user_id'],
+      type: 'foreign key',
+      name: 'fk_users_user_id_',
+      references: {
+          table: 'users',
+          field: 'id'
+      }
+     });
+     await queryInterface.addConstraint('order_service', {
+      fields: ['status_id'],
+      type: 'foreign key',
+      name: 'fk_status_status_id',
+      references: {
+          table: 'status_service',
+          field: 'id'
+      }
+     });
+     await queryInterface.addConstraint('order_service', {
+      fields: ['client_id'],
+      type: 'foreign key',
+      name: 'fk_client_client_id',
+      references: {
+          table: 'clients',
+          field: 'id'
+      }
+     });
+
+     await queryInterface.addConstraint('users', {
+      fields: ['created_by'],
+      type: 'foreign key',
+      name: 'fk_users_created_by',
+      references: {
+          table: 'users',
+          field: 'id'
+      }
+     });
+
+      await queryInterface.addConstraint('users', {
+          fields: ['updated_by'],
+          type: 'foreign key',
+          name: 'fk_users_updated_by',
+          references: {
+              table: 'users',
+              field: 'id'
+          }
+      });
+
+      await queryInterface.addConstraint('order_service', {
+        fields: ['created_by'],
+        type: 'foreign key',
+        name: 'fk_users_created_by',
+        references: {
+            table: 'users',
+            field: 'id'
+        }
+    });
+
+    await queryInterface.addConstraint('order_service', {
+        fields: ['updated_by'],
+        type: 'foreign key',
+        name: 'fk_users_updated_by',
+        references: {
+            table: 'users',
+            field: 'id'
+        }
+    });
+
+    await queryInterface.addConstraint('clients', {
+      fields: ['created_by'],
+      type: 'foreign key',
+      name: 'fk_users_created_by',
+      references: {
+          table: 'users',
+          field: 'id'
+      }
+    });
+
+    await queryInterface.addConstraint('clients', {
+      fields: ['updated_by'],
+      type: 'foreign key',
+      name: 'fk_users_updated_by',
+      references: {
+          table: 'users',
+          field: 'id'
+      }
+    });
+
+    await queryInterface.addConstraint('address', {
+      fields: ['created_by'],
+      type: 'foreign key',
+      name: 'fk_users_created_by',
+      references: {
+          table: 'users',
+          field: 'id'
+      }
+    });
+
+    await queryInterface.addConstraint('address', {
+      fields: ['updated_by'],
+      type: 'foreign key',
+      name: 'fk_users_updated_by',
+      references: {
+          table: 'users',
+          field: 'id'
+      }
+    });
   },
 
   async down (queryInterface, Sequelize) {
