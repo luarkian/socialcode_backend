@@ -4,7 +4,7 @@ module.exports = {
 
     async createUser (req, res) {
         try {
-            const { firsname, lastname, username, password, email, is_active, profile} = req.body;
+            const { firstname, lastname, username, password, email, is_active, profile_id} = req.body;
     
            const user =  Users.findOne( { where: {email}});
 
@@ -12,7 +12,7 @@ module.exports = {
                 res.status(200).json({message:"Email já utilizado!"});
             }
             else{
-                const user =  await Users.create({ firsname, lastname, username, password, email, is_active, profile});
+                const user =  await Users.create({ firstname, lastname, username, password, email, is_active, profile_id});
         
                 res.status(200).json({user});
             }
