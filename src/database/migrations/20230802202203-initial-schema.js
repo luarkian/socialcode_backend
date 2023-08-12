@@ -12,9 +12,9 @@ module.exports = {
     await queryInterface.createTable('users', 
     { 
       id: {
-        type: Sequelize.DataTypes.UUID,
+        type: Sequelize.INTEGER,
         primaryKey: true,
-        defaultValue: Sequelize.UUIDV4,
+        autoIncrement: true,
         AllowNull: false
       },
       firstname:{ 
@@ -42,23 +42,23 @@ module.exports = {
       },
       profile_id:  
       {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
       },
-      created_at: { 
+      createdAt: { 
         type: Sequelize.DATE,
       },
-      updated_at: { 
+      updatedAt: { 
         type: Sequelize.DATE,
       },
-      created_by:  {
-        type: Sequelize.UUID,
+      createdBy:  {
+        type: Sequelize.INTEGER,
         references: {
           model: 'users', 
           key: 'id'
         }
       },
-      updated_by: {
-        type: Sequelize.UUID,
+      updatedBy: {
+        type: Sequelize.INTEGER,
         references: {
           model: 'users', 
           key: 'id'
@@ -67,9 +67,9 @@ module.exports = {
     });
     await queryInterface.createTable('address',{
       id: {
-        type: Sequelize.DataTypes.UUID,
+        type: Sequelize.INTEGER,
         primaryKey: true,
-        defaultValue: Sequelize.UUIDV4,
+        autoIncrement: true,
         AllowNull: false
       },
       street: { 
@@ -88,23 +88,23 @@ module.exports = {
         type: Sequelize.STRING,
         AllowNull: false
       },  
-      created_at: { 
+      createdAt: { 
         type: Sequelize.DATE,
         AllowNull: false
       },
-      updated_at: { 
+      updatedAt: { 
         type: Sequelize.DATE,
         AllowNull: false
       },
-      created_by:  {
-        type: Sequelize.UUID,
+      createdBy:  {
+        type: Sequelize.INTEGER,
         references: {
           model: 'users', 
           key: 'id'
         }
       },
-      updated_by: {
-        type: Sequelize.UUID,
+      updatedBy: {
+        type: Sequelize.INTEGER,
         references: {
           model: 'users', 
           key: 'id'
@@ -114,9 +114,9 @@ module.exports = {
 
     await queryInterface.createTable('clients',{
       id: {
-        type: Sequelize.DataTypes.UUID,
+        type: Sequelize.INTEGER,
         primaryKey: true,
-        defaultValue: Sequelize.UUIDV4,
+        autoIncrement: true,
         AllowNull: false
       },
       business_name: { 
@@ -147,30 +147,30 @@ module.exports = {
         type: Sequelize.STRING,
       },
       address_id: { 
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         AllowNull: false,
         references: {
           model: 'address', // Referencing the 'address' table
           key: 'id'
       }
       },
-      created_at: { 
+      createdAt: { 
         type: Sequelize.DATE,
         AllowNull: false
       },
-      updated_at: { 
+      updatedAt: { 
         type: Sequelize.DATE,
         AllowNull: false
       },
-      created_by:  {
-        type: Sequelize.UUID,
+      createdBy:  {
+        type: Sequelize.INTEGER,
         references: {
           model: 'users', 
           key: 'id'
         } 
       },
-      updated_by: {
-        type: Sequelize.UUID,
+      updatedBy: {
+        type: Sequelize.INTEGER,
         references: {
           model: 'users', 
           key: 'id'
@@ -181,9 +181,9 @@ module.exports = {
     await queryInterface.createTable('status_service', 
     {
       id: {
-        type: Sequelize.DataTypes.UUID,
+        type: Sequelize.INTEGER,
         primaryKey: true,
-        defaultValue: Sequelize.UUIDV4,
+        autoIncrement: true,
         AllowNull: false
       },
       name: { 
@@ -197,9 +197,9 @@ module.exports = {
     await queryInterface.createTable('profile', 
     { 
       id: {
-        type: Sequelize.DataTypes.UUID,
+        type: Sequelize.INTEGER,
         primaryKey: true,
-        defaultValue: Sequelize.UUIDV4,
+        autoIncrement: true,
         AllowNull: false
       },
       name: { 
@@ -214,20 +214,20 @@ module.exports = {
     await queryInterface.createTable('order_service', 
     {
       id: {
-        type: Sequelize.DataTypes.UUID,
+        type: Sequelize.INTEGER,
         primaryKey: true,
-        defaultValue: Sequelize.UUIDV4,
+        autoIncrement: true,
         AllowNull: false
       },
       client_id:  {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: 'clients', 
           key: 'id'
         } 
       },
       status_id:  {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: 'status_service', 
           key: 'id'
@@ -240,7 +240,7 @@ module.exports = {
         type: Sequelize.TEXT,
       },
       user_id:  {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: 'users', 
           key: 'id'
@@ -249,23 +249,23 @@ module.exports = {
       description:  {
         type: Sequelize.TEXT,
       },
-      created_at: { 
+      createdAt: { 
         type: Sequelize.DATE,
         AllowNull: false
       },
-      updated_at: { 
+      updatedAt: { 
         type: Sequelize.DATE,
         AllowNull: false
       },
-      created_by:  {
-        type: Sequelize.UUID,
+      createdBy:  {
+        type: Sequelize.INTEGER,
         references: {
           model: 'users', 
           key: 'id'
         } 
       },
-      updated_by: {
-        type: Sequelize.UUID,
+      updatedBy: {
+        type: Sequelize.INTEGER,
         references: {
           model: 'users', 
           key: 'id'
@@ -302,9 +302,9 @@ module.exports = {
      });
 
      await queryInterface.addConstraint('users', {
-      fields: ['created_by'],
+      fields: ['createdBy'],
       type: 'foreign key',
-      name: 'fk_users_created_by',
+      name: 'fk_users_createdBy',
       references: {
           table: 'users',
           field: 'id'
@@ -312,9 +312,9 @@ module.exports = {
      });
 
       await queryInterface.addConstraint('users', {
-          fields: ['updated_by'],
+          fields: ['updatedBy'],
           type: 'foreign key',
-          name: 'fk_users_updated_by',
+          name: 'fk_users_updatedBy',
           references: {
               table: 'users',
               field: 'id'
@@ -322,9 +322,9 @@ module.exports = {
       });
 
       await queryInterface.addConstraint('order_service', {
-        fields: ['created_by'],
+        fields: ['createdBy'],
         type: 'foreign key',
-        name: 'fk_users_created_by',
+        name: 'fk_users_createdBy',
         references: {
             table: 'users',
             field: 'id'
@@ -332,9 +332,9 @@ module.exports = {
     });
 
     await queryInterface.addConstraint('order_service', {
-        fields: ['updated_by'],
+        fields: ['updatedBy'],
         type: 'foreign key',
-        name: 'fk_users_updated_by',
+        name: 'fk_users_updatedBy',
         references: {
             table: 'users',
             field: 'id'
@@ -342,9 +342,9 @@ module.exports = {
     });
 
     await queryInterface.addConstraint('clients', {
-      fields: ['created_by'],
+      fields: ['createdBy'],
       type: 'foreign key',
-      name: 'fk_users_created_by',
+      name: 'fk_users_createdBy',
       references: {
           table: 'users',
           field: 'id'
@@ -352,9 +352,9 @@ module.exports = {
     });
 
     await queryInterface.addConstraint('clients', {
-      fields: ['updated_by'],
+      fields: ['updatedBy'],
       type: 'foreign key',
-      name: 'fk_users_updated_by',
+      name: 'fk_users_updatedBy',
       references: {
           table: 'users',
           field: 'id'
@@ -362,9 +362,9 @@ module.exports = {
     });
 
     await queryInterface.addConstraint('address', {
-      fields: ['created_by'],
+      fields: ['createdBy'],
       type: 'foreign key',
-      name: 'fk_users_created_by',
+      name: 'fk_users_createdBy',
       references: {
           table: 'users',
           field: 'id'
@@ -372,9 +372,9 @@ module.exports = {
     });
 
     await queryInterface.addConstraint('address', {
-      fields: ['updated_by'],
+      fields: ['updatedBy'],
       type: 'foreign key',
-      name: 'fk_users_updated_by',
+      name: 'fk_users_updatedBy',
       references: {
           table: 'users',
           field: 'id'
