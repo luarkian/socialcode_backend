@@ -9,4 +9,11 @@ router.get('/', (req, res) => {
 
 router.post('/new_user', UserCrontroller.createUser);
 
+router.put('/edit_user/:id', UserCrontroller.editUser);
+
+router.get('/list_users', UserCrontroller.listUsers);
+
+router.delete('/delete_user/:id', UserCrontroller.deleteUser);
+
+
 module.exports = router;
