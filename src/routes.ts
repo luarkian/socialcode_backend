@@ -1,6 +1,7 @@
 const {Router} = require('express');
 const router = Router();
-const UserCrontroller = require('./controller/userController.ts')
+import UserCrontroller from './controller/userController';
+import ClientController from './controller/clientController';
 
 //const  = require('./models/user');
 router.get('/', (req, res) => {
@@ -15,5 +16,7 @@ router.get('/list_users', UserCrontroller.listUsers);
 
 router.delete('/delete_user/:id', UserCrontroller.deleteUser);
 
+router.post('/new_client', ClientController.createClient);
+ 
 
-module.exports = router;
+export default router;

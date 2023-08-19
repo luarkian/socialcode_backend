@@ -27,4 +27,4 @@ class users extends Model{
         }
 }
 
-module.exports = users;
+export default users;

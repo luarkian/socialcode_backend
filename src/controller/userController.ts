@@ -1,38 +1,39 @@
-const Users = require('../models/user')
+import users from '../models/user';
 
-module.exports = {
+export default {
 
     async createUser (req, res) {
         try {
-            const { firstname, lastname, username, password, email, is_active, profile_id} = req.body;
+            var { firstname, lastname, username, password, email, is_active, profile_id} = req.body;
     
-           const user =  Users.findOne( { where: {email}});
+           var User =  users.findOne( { where: {email}});
 
-            if(user.email){
+            if(User.email){
                 res.status(200).json({message:"Email já utilizado!"});
             }
             else{
-                const user =  await Users.create({ firstname, lastname, username, password, email, is_active, profile_id});
+                var User =  await users.create({ firstname, lastname, username, password, email, is_active, profile_id});
         
-                res.status(200).json({user});
+                res.status(200).json({User});
             }
         }
          catch (error){
+            console.log(error);
             res.status(400).json({error});
          }
     },
 
     async editUser (req, res){
         try{
-            const {id} =  req.params;
-            const {firstname, lastname, username, password, email, is_active, profile_id} = req.body;
+            var {id} =  req.params;
+            var {firstname, lastname, username, password, email, is_active, profile_id} = req.body;
 
-            const user =  await Users.findOne( { where: {id}});
+            var user =  await users.findOne( { where: {id}});
             if(!user){
                 res.status(401).json({message:"Nenhum usuário encontrado!"});
             }
             else{
-                const user = await Users.update(
+                var user = await users.update(
                     { firstname,
                     lastname,
                     username,
@@ -51,7 +52,7 @@ module.exports = {
 
     async listUsers(req, res){
        try{
-        const users =  await Users.findAll();
+        var users =  await users.findAll();
         if(!users){
             res.status(200).json({message:"Não existe usuários cadastrados!"});
         }
@@ -64,14 +65,14 @@ module.exports = {
 
     async deleteUser(req, res) {
         try{
-            const {id} =  req.params;
-            const user = await Users.findOne({where: {id} });
+            var {id} =  req.params;
+            var user = await users.findOne({where: {id} });
 
             if(!user){
                 res.status(200).json({message:"Usuário não encontrado!"});
             }
             else{
-                const user = await Users.destroy({where: {id} });
+                const user = await users.destroy({where: {id} });
                 res.status(200).json({message: "Usuário apagado!"});
             }
         }
