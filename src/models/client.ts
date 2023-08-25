@@ -1,7 +1,8 @@
 const { Model, DataTypes} = require ('sequelize');
+import Address from './address'; 
 
 
-class client extends Model {
+class Client extends Model {
 
     static init(sequelize){
         super.init({
@@ -20,6 +21,12 @@ class client extends Model {
         
         return this;
     }
-    
+    static associate() {
+        Client.hasOne(Address, { 
+            constraint: true,
+            foreignKey: 'address_id',
+            onDelete: 'cascade' });
+    }
+
 }
-export default client;
+export default Client;

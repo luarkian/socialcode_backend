@@ -1,7 +1,7 @@
 const { Model, DataTypes} = require('sequelize');
-const client = require('./client'); 
+import Client from './client';
 
-class address extends Model {
+class Address extends Model {
  
     static init(sequelize){
         super.init({
@@ -10,14 +10,15 @@ class address extends Model {
             cep: DataTypes.STRING,
             complement: DataTypes.STRING,
             }, {
-            sequelize,
-            tableName: 'address'
+                sequelize,
+                modelName: 'Address',
+                tableName: 'address'
             });
-
+           // this.hasOne(Client, { foreignKey: 'address_id' });
             return this;
         }
-    static associate(models){
-            address.belongsTo(models.client, { foreignKey: 'address_id' }); 
-        }    
+    static associate(){
+           Address.belongsTo(Client, { foreignKey: 'address_id' });
+       }    
 }   
-export default address;
+export default Address;
