@@ -27,6 +27,14 @@ router.get('/list_clients', ClientController.listClients);
 
 router.post('/new_service', ServiceController.createService);
 
+router.get('/list_orders', ServiceController.listServices);
+
+router.get('/list_orders_from/:id', ServiceController.listServicesFrom);
+
+//router.get('/list_orders_tec/:id', ServiceController.listServicesWithTec);
+
+//router.put('/add_tecnico/:id', ServiceController.addTecnicoService);
+
 router.put('/edit_service/:id', ServiceController.editService);
  
 router.delete('/delete_service/:id', ServiceController.deleteService);

@@ -1,5 +1,6 @@
 const { Model, DataTypes} = require ('sequelize');
-import Address from './address'; 
+const OrderServices = require ('./order_service');
+const Address = require ('./address'); 
 
 
 class Client extends Model {
@@ -26,6 +27,10 @@ class Client extends Model {
             constraint: true,
             foreignKey: 'address_id',
             onDelete: 'cascade' });
+        Client.hasMany(OrderServices, { 
+            constraint: true,
+            foreignKey: 'client_id',
+            onDelete: 'cascade' });            
     }
 
 }
